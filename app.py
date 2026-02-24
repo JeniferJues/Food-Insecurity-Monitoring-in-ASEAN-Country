@@ -150,12 +150,20 @@ elif page == "Forecasting":
 
     country = st.selectbox(
         "Select Country",
-        model_df["Country"].unique()
+        eda_df["Country"].unique()
     )
 
     try:
-        forecast = joblib.load(f"models/forecast/{country}_prophet.pkl")
+        # 🔹 Load saved Prophet model
+        model = joblib.load(
+            f"models/forecast/{country}_prophet.pkl"
+        )
 
+        # 🔹 Generate forecast dynamically
+        future = model.make_future_dataframe(periods=5, freq="YS")
+        forecast = model.predict(future)
+
+        # 🔹 Forecast Trend
         st.subheader("Forecast Trend")
         fig = px.line(
             forecast,
@@ -165,6 +173,7 @@ elif page == "Forecasting":
         )
         st.plotly_chart(fig, use_container_width=True)
 
+        # 🔹 Confidence Interval
         st.subheader("Confidence Interval")
         fig2 = px.line(
             forecast,
@@ -173,6 +182,7 @@ elif page == "Forecasting":
         )
         st.plotly_chart(fig2, use_container_width=True)
 
+        # 🔹 Growth Rate
         forecast["growth"] = forecast["yhat"].pct_change() * 100
 
         st.subheader("Growth Rate (%)")
@@ -184,7 +194,7 @@ elif page == "Forecasting":
         st.plotly_chart(fig3, use_container_width=True)
 
     except Exception as e:
-        st.warning("Forecast model not available.")
+        st.error("Forecast model not available.")
         st.write(e)
 
 # =====================================================
