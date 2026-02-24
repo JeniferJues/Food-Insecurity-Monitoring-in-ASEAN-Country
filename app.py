@@ -24,7 +24,7 @@ def load_data():
 def load_prediction_model():
     return joblib.load("models/prediction/food_model.pkl")
 
-df = load_data()
+eda_df = load_eda_data()
 model = load_prediction_model()
 
 # -----------------------------
@@ -93,14 +93,51 @@ elif page == "Driver Analysis":
     # Prediction tool
     st.subheader("Food Insecurity Prediction Tool")
 
-    irrigation = st.slider("Irrigation %",0.0,100.0,50.0)
-    water access = st.slider("Water Access %",0.0,100.0,60.0)
+    col1, col2 = st.columns(2)
 
-    if st.button("Predict Risk"):
-        input_df = preprocess_input(irrigation, water access)
-        pred = model.predict(input_df)
-        st.success(f"Predicted Food Insecurity: {pred[0]:.2f}")
+    with col1:
+        avg_food_value = st.number_input("Average Food Production Value", 0.0, 5000.0, 1000.0)
+        cereal_import = st.number_input("Cereal Import Dependency (%)", 0.0, 100.0, 30.0)
+        caloric_losses = st.number_input("Caloric Losses (%)", 0.0, 100.0, 10.0)
+        food_prod_var = st.number_input("Food Production Variability", 0.0, 500.0, 50.0)
+        food_supply_var = st.number_input("Food Supply Variability", 0.0, 500.0, 50.0)
+        irrigation_land = st.number_input("Arable Land Irrigation (%)", 0.0, 100.0, 40.0)
+        child_overweight = st.number_input("Children Overweight (%)", 0.0, 100.0, 5.0)
 
+    with col2:
+        water_access = st.number_input("Water Access (%)", 0.0, 100.0, 70.0)
+        sanitation = st.number_input("Sanitation Access (%)", 0.0, 100.0, 70.0)
+        irrigation = st.number_input("Irrigation Index", 0.0, 100.0, 50.0)
+        political_stability = st.number_input("Political Stability Index", -3.0, 3.0, 0.0)
+        anemia = st.number_input("Anemia Prevalence (%)", 0.0, 100.0, 20.0)
+        cereal_energy = st.number_input("Dietary Energy from Cereals", 0.0, 1000.0, 400.0)
+        food_imports = st.number_input("Food Imports (%)", 0.0, 100.0, 20.0)
+        cpi = st.number_input("Consumer Price Index", 0.0, 300.0, 120.0)
+
+    if st.button("Predict Food Insecurity"):
+
+        user_input = {
+            'Average value of food production (constant 2004-2006 I$/cap) (3-year average)': avg_food_value,
+            'Cereal import dependency ratio (percent) (3-year average)': cereal_import,
+            'Incidence of caloric losses at retail distribution level (percent)': caloric_losses,
+            'Per capita food production variability (constant 2004-2006 thousand int$ per capita)': food_prod_var,
+            'Per capita food supply variability (kcal/cap/day)': food_supply_var,
+            'Percent of arable land equipped for irrigation (percent) (3-year average)': irrigation_land,
+            'Percentage of children under 5 years of age who are overweight (modelled estimates) (percent)': child_overweight,
+            'water access': water_access,
+            'Percentage of population using at least basic sanitation services (percent)': sanitation,
+            'irrigation': irrigation,
+            'Political stability and absence of violence/terrorism (index)': political_stability,
+            'Prevalence of anemia among women of reproductive age (15-49 years)': anemia,
+            'Share of dietary energy supply derived from cereals, roots and tubers (kcal/cap/day) (3-year average)': cereal_energy,
+            'Value of food imports in total merchandise exports (percent) (3-year average)': food_imports,
+            'Consumer Prices, General Indices (2015 = 100)': cpi
+        }
+
+        input_df = preprocess_input(user_input)
+        prediction = model.predict(input_df)
+
+        st.success(f"Predicted Food Insecurity Rate: {prediction[0]:.2f}")
 # =====================================================
 # PAGE 3 — FORECASTING
 # =====================================================
