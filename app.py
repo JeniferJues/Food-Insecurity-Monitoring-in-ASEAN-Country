@@ -19,12 +19,15 @@ st.set_page_config(
 @st.cache_data
 def load_eda_data():
     return pd.read_csv("dataset/eda_df.csv")
-
+@st.cache_data
+def load_model_df_data():
+    return pd.read_csv("dataset/model_df.csv")
 @st.cache_resource
 def load_prediction_model():
     return joblib.load("models/prediction/food_model.pkl")
 
 df = load_eda_data()
+model_df = load_model_df_data()
 model = load_prediction_model()
 
 # -----------------------------
@@ -147,7 +150,7 @@ elif page == "Forecasting":
 
     country = st.selectbox(
         "Select Country",
-        df["Country"].unique()
+        model_df["Country"].unique()
     )
 
     try:
