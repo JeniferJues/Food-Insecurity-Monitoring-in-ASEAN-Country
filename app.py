@@ -108,7 +108,7 @@ elif page == "Forecasting":
 
     st.header("Country Forecast")
 
-    country = st.selectbox("Select Country", df["Area"].unique())
+    country = st.selectbox("Select Country", df["Country"].unique())
 
     try:
         forecast = joblib.load(f"models/forecast/{country}_prophet.pkl")
