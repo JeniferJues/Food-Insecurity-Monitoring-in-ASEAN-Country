@@ -147,7 +147,7 @@ elif page == "Forecasting":
 
     country = st.selectbox(
         "Select Country",
-        eda_df["Country"].unique()
+        df["Country"].unique()
     )
 
     try:
