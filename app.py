@@ -68,7 +68,7 @@ if page == "Overview Dashboard":
     # Country comparison
     st.subheader("Country Comparison")
     country_avg = df.groupby("Area")["Food Insecurity Rate"].mean().reset_index()
-    fig2 = px.bar(country_avg, x="Area", y="Food Insecurity Rate")
+    fig2 = px.bar(country_avg, x="Area", y="Food Insecurity Rate", color="Area")
     st.plotly_chart(fig2, use_container_width=True)
 
 # =====================================================
