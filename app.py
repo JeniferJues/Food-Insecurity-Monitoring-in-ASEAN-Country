@@ -68,11 +68,6 @@ if page == "Overview Dashboard":
     fig2 = px.bar(country_avg, x="Area", y="Food Insecurity Rate")
     st.plotly_chart(fig2, use_container_width=True)
 
-    # Tableau embed
-    st.subheader("Interactive Tableau Dashboard")
-    tableau_url = "YOUR_TABLEAU_EMBED_LINK"
-    st.components.v1.iframe(tableau_url, height=700)
-
 # =====================================================
 # PAGE 2 — DRIVER ANALYSIS
 # =====================================================
