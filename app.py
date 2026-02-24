@@ -94,10 +94,10 @@ elif page == "Driver Analysis":
     st.subheader("Food Insecurity Prediction Tool")
 
     irrigation = st.slider("Irrigation %",0.0,100.0,50.0)
-    water = st.slider("Water Access %",0.0,100.0,60.0)
+    water access = st.slider("Water Access %",0.0,100.0,60.0)
 
     if st.button("Predict Risk"):
-        input_df = preprocess_input(irrigation, water)
+        input_df = preprocess_input(irrigation, water access)
         pred = model.predict(input_df)
         st.success(f"Predicted Food Insecurity: {pred[0]:.2f}")
 
