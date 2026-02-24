@@ -154,9 +154,7 @@ elif page == "Forecasting":
     )
 
     try:
-        forecast = joblib.load(
-            f"models/forecast/{country}_prophet.pkl"
-        )
+        forecast = joblib.load(f"models/forecast/{country}_prophet.pkl")
 
         st.subheader("Forecast Trend")
         fig = px.line(
