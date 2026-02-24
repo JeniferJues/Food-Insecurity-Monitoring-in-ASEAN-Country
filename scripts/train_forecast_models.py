@@ -3,13 +3,13 @@ import pandas as pd
 import joblib
 from prophet import Prophet
 
-df = pd.read_csv("data/model_df.csv")
+df = pd.read_csv("dataset/model_df.csv")
 
 countries = df["Area"].unique()
 
 for country in countries:
 
-    country_df = df[df["Area"] == country]
+    country_df = df[df["Country"] == country]
 
     ts = country_df[["Year","Food Insecurity Rate"]].copy()
     ts.columns = ["ds","y"]
