@@ -17,14 +17,14 @@ st.set_page_config(
 # LOAD DATA
 # -----------------------------
 @st.cache_data
-def load_data():
-    return pd.read_csv("dataset/eda_df.csv")
+def load_eda_data():
+    return pd.read_csv("data/eda_df.csv")
 
 @st.cache_resource
 def load_prediction_model():
     return joblib.load("models/prediction/food_model.pkl")
 
-eda_df = load_eda_data()
+df = load_eda_data()
 model = load_prediction_model()
 
 # -----------------------------
