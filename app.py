@@ -18,7 +18,7 @@ st.set_page_config(
 # -----------------------------
 @st.cache_data
 def load_eda_data():
-    return pd.read_csv("data/eda_df.csv")
+    return pd.read_csv("dataset/eda_df.csv")
 
 @st.cache_resource
 def load_prediction_model():
