@@ -47,6 +47,9 @@ for country in countries:
     future = model.make_future_dataframe(periods=5, freq="YS")
     forecast = model.predict(future)
 
+    # Save forecast dataframe (NOT model)
+    joblib.dump(forecast, f"models/forecast/{country}_prophet.pkl")
+
     # ==========================
     # SAVE FORECAST
     # ==========================
