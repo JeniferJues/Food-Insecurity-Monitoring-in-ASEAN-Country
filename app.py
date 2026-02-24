@@ -145,26 +145,46 @@ elif page == "Forecasting":
 
     st.header("Country Forecast")
 
-    country = st.selectbox("Select Country", df["Country"].unique())
+    country = st.selectbox(
+        "Select Country",
+        eda_df["Country"].unique()
+    )
 
     try:
-        forecast = joblib.load(f"models/forecast/{country}_prophet.pkl")
+        forecast = joblib.load(
+            f"models/forecast/{country}_prophet.pkl"
+        )
 
         st.subheader("Forecast Trend")
-        fig = px.line(forecast, x="ds", y="yhat")
+        fig = px.line(
+            forecast,
+            x="ds",
+            y="yhat",
+            title=f"{country} Forecast"
+        )
         st.plotly_chart(fig, use_container_width=True)
 
         st.subheader("Confidence Interval")
-        fig2 = px.line(forecast, x="ds", y=["yhat_lower","yhat_upper"])
+        fig2 = px.line(
+            forecast,
+            x="ds",
+            y=["yhat_lower", "yhat_upper"]
+        )
         st.plotly_chart(fig2, use_container_width=True)
 
-        forecast["growth"] = forecast["yhat"].pct_change()*100
-        st.subheader("Growth Rate")
-        fig3 = px.line(forecast, x="ds", y="growth")
+        forecast["growth"] = forecast["yhat"].pct_change() * 100
+
+        st.subheader("Growth Rate (%)")
+        fig3 = px.line(
+            forecast,
+            x="ds",
+            y="growth"
+        )
         st.plotly_chart(fig3, use_container_width=True)
 
-    except:
+    except Exception as e:
         st.warning("Forecast model not available.")
+        st.write(e)
 
 # =====================================================
 # PAGE 4 — INSIGHTS
