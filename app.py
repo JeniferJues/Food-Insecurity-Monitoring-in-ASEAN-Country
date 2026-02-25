@@ -19,9 +19,11 @@ st.set_page_config(
 @st.cache_data
 def load_eda_data():
     return pd.read_csv("dataset/eda_df.csv")
+
 @st.cache_data
 def load_model_df_data():
     return pd.read_csv("dataset/model_df.csv")
+
 @st.cache_resource
 def load_prediction_model():
     return joblib.load("models/prediction/food_model.pkl")
@@ -29,6 +31,14 @@ def load_prediction_model():
 df = load_eda_data()
 model_df = load_model_df_data()
 model = load_prediction_model()
+
+# -----------------------------
+# TABLEAU LINKS (REPLACE WITH YOUR LINKS)
+# -----------------------------
+TABLEAU_OVERVIEW = "https://public.tableau.com/views/FoodInsecurityRateDashboard/OverviewDashboard?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link"
+TABLEAU_DRIVER = "https://public.tableau.com/views/FoodInsecurityRateDashboard/DriverAnalysis?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link"
+TABLEAU_FORECAST = "https://public.tableau.com/views/FoodInsecurityRateDashboard/Forecasting?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link"
+TABLEAU_INSIGHTS = "https://public.tableau.com/shared/5842KMTCW?:display_count=n&:origin=viz_share_link"
 
 # -----------------------------
 # HEADER
@@ -52,24 +62,28 @@ page = st.sidebar.radio(
 # =====================================================
 if page == "Overview Dashboard":
 
-    st.header("Overview")
+    st.header("Overview Dashboard")
 
+    # 🔹 Embedded Tableau
+    st.subheader("Interactive Tableau Dashboard")
+    st.components.v1.iframe(TABLEAU_OVERVIEW, height=800)
+
+    st.divider()
+
+    # 🔹 KPI Cards (Python Version)
     col1, col2, col3 = st.columns(3)
 
-    col1.metric("Average Food Insecurity", round(df["Food Insecurity Rate"].mean(),2))
-    col2.metric("Highest Country", df.groupby("Area")["Food Insecurity Rate"].mean().idxmax())
-    col3.metric("Lowest Country", df.groupby("Area")["Food Insecurity Rate"].mean().idxmin())
+    col1.metric("Average Food Insecurity",
+                round(df["Food Insecurity Rate"].mean(),2))
+    col2.metric("Highest Country",
+                df.groupby("Area")["Food Insecurity Rate"].mean().idxmax())
+    col3.metric("Lowest Country",
+                df.groupby("Area")["Food Insecurity Rate"].mean().idxmin())
 
-    # Trend line
-    st.subheader("Trend by Country")
+    # 🔹 Trend line
+    st.subheader("Trend by Country (Python View)")
     fig = px.line(df, x="Year", y="Food Insecurity Rate", color="Area")
     st.plotly_chart(fig, use_container_width=True)
-
-    # Country comparison
-    st.subheader("Country Comparison")
-    country_avg = df.groupby("Area")["Food Insecurity Rate"].mean().reset_index()
-    fig2 = px.bar(country_avg, x="Area", y="Food Insecurity Rate", color="Area")
-    st.plotly_chart(fig2, use_container_width=True)
 
 # =====================================================
 # PAGE 2 — DRIVER ANALYSIS
@@ -78,8 +92,14 @@ elif page == "Driver Analysis":
 
     st.header("Driver Analysis")
 
-    # Feature importance
-    st.subheader("Feature Importance")
+    # 🔹 Embedded Tableau
+    st.subheader("Interactive Tableau Driver Dashboard")
+    st.components.v1.iframe(TABLEAU_DRIVER, height=800)
+
+    st.divider()
+
+    # 🔹 Feature importance (Python)
+    st.subheader("Feature Importance (Model Output)")
 
     try:
         fi = pd.read_csv("dataset/feature_importance.csv")
@@ -88,12 +108,12 @@ elif page == "Driver Analysis":
     except:
         st.info("Upload feature importance data.")
 
-    # Correlation matrix
+    # 🔹 Correlation matrix
     st.subheader("Correlation Matrix")
     corr = df.corr(numeric_only=True)
     st.dataframe(corr)
 
-    # Prediction tool
+    # 🔹 Prediction tool
     st.subheader("Food Insecurity Prediction Tool")
 
     col1, col2 = st.columns(2)
@@ -126,27 +146,34 @@ elif page == "Driver Analysis":
             'Per capita food production variability (constant 2004-2006 thousand int$ per capita)': food_prod_var,
             'Per capita food supply variability (kcal/cap/day)': food_supply_var,
             'Percent of arable land equipped for irrigation (percent) (3-year average)': irrigation_land,
-            'Percentage of children under 5 years of age who are overweight (modelled estimates) (percent)': child_overweight,
+            'Percentage of children under 5 years of age who are overweight (percent)': child_overweight,
             'water access': water_access,
             'Percentage of population using at least basic sanitation services (percent)': sanitation,
             'irrigation': irrigation,
             'Political stability and absence of violence/terrorism (index)': political_stability,
             'Prevalence of anemia among women of reproductive age (15-49 years)': anemia,
-            'Share of dietary energy supply derived from cereals, roots and tubers (kcal/cap/day) (3-year average)': cereal_energy,
-            'Value of food imports in total merchandise exports (percent) (3-year average)': food_imports,
-            'Consumer Prices, General Indices (2015 = 100)': cpi
+            'Share of dietary energy supply derived from cereals (kcal/cap/day)': cereal_energy,
+            'Value of food imports (percent)': food_imports,
+            'Consumer Prices Index': cpi
         }
 
         input_df = preprocess_input(user_input)
         prediction = model.predict(input_df)
 
         st.success(f"Predicted Food Insecurity Rate: {prediction[0]:.2f}")
+
 # =====================================================
 # PAGE 3 — FORECASTING
 # =====================================================
 elif page == "Forecasting":
 
-    st.header("Country Forecast")
+    st.header("Forecasting Dashboard")
+
+    # 🔹 Embedded Tableau Forecast
+    st.subheader("Interactive Tableau Forecast")
+    st.components.v1.iframe(TABLEAU_FORECAST, height=800)
+
+    st.divider()
 
     country = st.selectbox(
         "Select Country",
@@ -154,65 +181,42 @@ elif page == "Forecasting":
     )
 
     try:
-        # 🔹 Load saved Prophet model
         model = joblib.load(
             f"models/forecast/{country}_prophet.pkl"
         )
 
-        # 🔹 Generate forecast dynamically
         future = model.make_future_dataframe(periods=5, freq="YS")
         forecast = model.predict(future)
 
-        # 🔹 Forecast Trend
-        st.subheader("Forecast Trend")
-        fig = px.line(
-            forecast,
-            x="ds",
-            y="yhat",
-            title=f"{country} Forecast"
-        )
+        st.subheader("Forecast Trend (Python)")
+        fig = px.line(forecast, x="ds", y="yhat")
         st.plotly_chart(fig, use_container_width=True)
 
-        # 🔹 Confidence Interval
-        st.subheader("Confidence Interval")
-        fig2 = px.line(
-            forecast,
-            x="ds",
-            y=["yhat_lower", "yhat_upper"]
-        )
-        st.plotly_chart(fig2, use_container_width=True)
-
-        # 🔹 Growth Rate
-        forecast["growth"] = forecast["yhat"].pct_change() * 100
-
-        st.subheader("Growth Rate (%)")
-        fig3 = px.line(
-            forecast,
-            x="ds",
-            y="growth"
-        )
-        st.plotly_chart(fig3, use_container_width=True)
-
-    except Exception as e:
+    except:
         st.error("Forecast model not available.")
-        st.write(e)
 
 # =====================================================
 # PAGE 4 — INSIGHTS
 # =====================================================
 elif page == "Insights":
 
-    st.header("Key Insights")
+    st.header("Strategic Insights")
+
+    st.subheader("Interactive Tableau Insights Dashboard")
+    st.components.v1.iframe(TABLEAU_INSIGHTS, height=800)
+
+    st.divider()
 
     st.markdown("""
 ### Key Findings
 - Infrastructure access strongly influences food insecurity.
-- Water and sanitation are major drivers.
-- Some ASEAN countries show stable improvement.
-- Forecasting helps policy planning.
+- Water and sanitation are major structural drivers.
+- Some ASEAN countries show long-term improvement.
+- Forecasting supports policy planning and risk management.
 
 ### Policy Implications
-- Improve agricultural production stability.
-- Enhance food distribution systems.
-- Invest in infrastructure.
+- Improve rural water access
+- Stabilize food production systems
+- Strengthen agricultural resilience
+- Monitor price volatility
 """)
