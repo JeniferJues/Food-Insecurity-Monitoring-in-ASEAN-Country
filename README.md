@@ -50,10 +50,8 @@ This project develops a machine learning–based monitoring and forecasting syst
 • Supports evidence-based policy decision
 
 
-• Identifies key socioeconomic drivers affecting food securi 
+• Identifies key socioeconomic drivers affecting food security
 
-y
-• Provides future projections for intervention plann  
+• Provides future projections for intervention planning
 
-ng
 • Improves resource allocation strategies
