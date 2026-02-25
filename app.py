@@ -12,6 +12,12 @@ st.set_page_config(
     layout="wide"
 )
 
+st.components.v1.html("""
+<script>
+window.scrollTo({top: 0, behavior: 'smooth'});
+</script>
+""", height=0, width=0)
+
 # =====================================================
 # LOAD DATA
 # =====================================================
