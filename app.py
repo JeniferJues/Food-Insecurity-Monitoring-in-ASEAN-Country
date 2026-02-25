@@ -4,17 +4,17 @@ import plotly.express as px
 import joblib
 from utils.preprocess import preprocess_input
 
-# ---------------------------------------------------
+# =====================================================
 # PAGE CONFIG
-# ---------------------------------------------------
+# =====================================================
 st.set_page_config(
     page_title="ASEAN Food Security Monitoring",
     layout="wide"
 )
 
-# ---------------------------------------------------
+# =====================================================
 # LOAD DATA
-# ---------------------------------------------------
+# =====================================================
 @st.cache_data
 def load_eda_data():
     return pd.read_csv("dataset/eda_df.csv")
@@ -29,24 +29,24 @@ def load_prediction_model():
 
 df = load_eda_data()
 model_df = load_model_df_data()
-model = load_prediction_model()
+prediction_model = load_prediction_model()
 
-# ---------------------------------------------------
-# 🔥 TABLEAU DASHBOARD PATHS
-# Replace with YOUR workbook + sheet names
-# Format: views/WorkbookName/DashboardName
-# ---------------------------------------------------
+# =====================================================
+# TABLEAU DASHBOARD PATHS
+# Replace with your real workbook + dashboard names
+# Example: views/ASEANFoodSecurity/Overview
+# =====================================================
 TABLEAU_PATHS = {
-    "Overview Dashboard": "views/FoodInsecurityRateDashboard/OverviewDashboard",
-    "Driver Analysis": "views/FoodInsecurityRateDashboard/DriverAnalysis",
-    "Forecasting": "views/FoodInsecurityRateDashboard/Forecasting",
-    "Insights": "views/FoodInsecurityRateDashboard/Insights"
+    "Overview Dashboard": "views/YourWorkbook/Overview",
+    "Driver Analysis": "views/YourWorkbook/DriverAnalysis",
+    "Forecasting": "views/YourWorkbook/Forecasting",
+    "Insights": "views/YourWorkbook/Insights"
 }
 
-# ---------------------------------------------------
-# FUNCTION TO EMBED TABLEAU (STREAMLIT SAFE)
-# ---------------------------------------------------
-def embed_tableau(path, height=700):
+# =====================================================
+# FUNCTION TO EMBED TABLEAU (Streamlit Cloud Safe)
+# =====================================================
+def embed_tableau(path, height=800):
     html_code = f"""
     <script type='module' src='https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js'></script>
     <tableau-viz
@@ -59,15 +59,15 @@ def embed_tableau(path, height=700):
     """
     st.components.v1.html(html_code, height=height)
 
-# ---------------------------------------------------
+# =====================================================
 # HEADER
-# ---------------------------------------------------
+# =====================================================
 st.image("assets/Header.png", use_container_width=True)
 st.title("ASEAN Food Security Monitoring Dashboard")
 
-# ---------------------------------------------------
+# =====================================================
 # SIDEBAR
-# ---------------------------------------------------
+# =====================================================
 page = st.sidebar.radio(
     "Navigation",
     ["Overview Dashboard",
@@ -76,19 +76,17 @@ page = st.sidebar.radio(
      "Insights"]
 )
 
-# ===================================================
+# =====================================================
 # PAGE 1 — OVERVIEW
-# ===================================================
+# =====================================================
 if page == "Overview Dashboard":
 
     st.header("Overview Dashboard")
 
-    # 🔹 Tableau Interactive Dashboard
     embed_tableau(TABLEAU_PATHS["Overview Dashboard"])
 
     st.divider()
 
-    # 🔹 KPI Cards
     col1, col2, col3 = st.columns(3)
 
     col1.metric("Average Food Insecurity",
@@ -100,24 +98,52 @@ if page == "Overview Dashboard":
     col3.metric("Lowest Country",
                 df.groupby("Area")["Food Insecurity Rate"].mean().idxmin())
 
-    # 🔹 Trend (Python)
-    st.subheader("Trend by Country")
+    st.subheader("Trend by Country (Python)")
     fig = px.line(df, x="Year", y="Food Insecurity Rate", color="Area")
     st.plotly_chart(fig, use_container_width=True)
 
-# ===================================================
+# =====================================================
 # PAGE 2 — DRIVER ANALYSIS
-# ===================================================
+# =====================================================
 elif page == "Driver Analysis":
 
     st.header("Driver Analysis")
 
-    # 🔹 Tableau Dashboard
     embed_tableau(TABLEAU_PATHS["Driver Analysis"])
 
     st.divider()
 
-    # 🔹 Feature Importance
+    # -------------------------
+    # MODEL DESCRIPTION
+    # -------------------------
+    st.markdown("""
+    ## 🔍 Prediction Model Overview
+
+    The prediction model was developed using **Random Forest Regressor** 
+    after evaluating multiple machine learning algorithms.
+
+    **Why Random Forest?**
+    - Achieved the highest cross-validation performance.
+    - Average CV Score: **0.95**
+    - Handles nonlinear relationships effectively.
+    - Reduces overfitting via ensemble averaging.
+
+    ### 🧠 Feature Selection
+    Input features were selected through a structured feature selection process to:
+    - Reduce multicollinearity
+    - Improve generalization
+    - Increase predictive stability
+    - Retain only the most influential variables
+
+    The model predicts the **Food Insecurity Rate** based on economic, 
+    infrastructure, and food system indicators.
+    """)
+
+    st.divider()
+
+    # -------------------------
+    # FEATURE IMPORTANCE
+    # -------------------------
     st.subheader("Feature Importance")
 
     try:
@@ -127,13 +153,17 @@ elif page == "Driver Analysis":
     except:
         st.info("Feature importance file not found.")
 
-    # 🔹 Correlation
+    # -------------------------
+    # CORRELATION
+    # -------------------------
     st.subheader("Correlation Matrix")
     corr = df.corr(numeric_only=True)
     st.dataframe(corr)
 
-    # 🔹 Prediction Tool
-    st.subheader("Prediction Tool")
+    # -------------------------
+    # PREDICTION TOOL
+    # -------------------------
+    st.subheader("Food Insecurity Prediction Tool")
 
     col1, col2 = st.columns(2)
 
@@ -167,34 +197,41 @@ elif page == "Driver Analysis":
         }
 
         input_df = preprocess_input(user_input)
-        prediction = model.predict(input_df)
+        prediction = prediction_model.predict(input_df)
 
         st.success(f"Predicted Food Insecurity Rate: {prediction[0]:.2f}")
 
-        st.markdown("""
-        ### 🔍 Prediction Model Overview
-
-        The prediction model was developed using **Random Forest Regressor** after evaluating multiple machine learning algorithms during model development.
-        - Achieved the highest cross-validation performance.
-        - Delivered a strong average CV score of **0.95**.
-            
-        ### 🧠 Feature Selection
-
-        The input variables used in this prediction tool were selected through a feature selection process to ensure:
-        - Reduced multicollinearity
-        - Improved model generalization
-        - Higher predictive accuracy
-""")
-
-# ===================================================
+# =====================================================
 # PAGE 3 — FORECASTING
-# ===================================================
+# =====================================================
 elif page == "Forecasting":
 
     st.header("Forecasting Dashboard")
 
-    # 🔹 Tableau Forecast
     embed_tableau(TABLEAU_PATHS["Forecasting"])
+
+    st.divider()
+
+    # -------------------------
+    # FORECAST DESCRIPTION
+    # -------------------------
+    st.markdown("""
+    ## 📈 Forecasting Model Overview
+
+    Forecasting was performed using **Facebook Prophet**, 
+    a time-series forecasting model designed for policy and business applications.
+
+    ### Why Prophet?
+
+    - Effective for yearly time-series data  
+    - Captures long-term trend patterns  
+    - Handles structural shifts  
+    - Robust to missing values and outliers  
+    - Provides confidence intervals  
+
+    Prophet was selected due to its stability, interpretability, 
+    and strong forecasting performance across ASEAN countries.
+    """)
 
     st.divider()
 
@@ -215,24 +252,22 @@ elif page == "Forecasting":
         fig = px.line(forecast, x="ds", y="yhat")
         st.plotly_chart(fig, use_container_width=True)
 
+        st.subheader("Confidence Interval")
+        fig2 = px.line(forecast, x="ds",
+                       y=["yhat_lower", "yhat_upper"])
+        st.plotly_chart(fig2, use_container_width=True)
+
+        forecast["growth"] = forecast["yhat"].pct_change() * 100
+        st.subheader("Projected Growth Rate (%)")
+        fig3 = px.line(forecast, x="ds", y="growth")
+        st.plotly_chart(fig3, use_container_width=True)
+
     except:
-        st.warning("Forecast model not available for this country.")
-        st.markdown("""
-### 📈 Forecasting Model Overview
+        st.warning("Forecast model not available.")
 
-The forecasting model was developed using **Facebook Prophet**, a time series forecasting model designed for business and policy applications.
-Prophet was selected because it:
-
-- Performs well with yearly time-series data.
-- Handles trend changes and structural shifts effectively.
-- Automatically models seasonality and trend components.
-
-""")
-
-
-# ===================================================
+# =====================================================
 # PAGE 4 — INSIGHTS
-# ===================================================
+# =====================================================
 elif page == "Insights":
 
     st.header("Strategic Insights")
@@ -240,18 +275,19 @@ elif page == "Insights":
     embed_tableau(TABLEAU_PATHS["Insights"])
 
     st.divider()
+
     st.markdown("""
-### Key Findings
+    ## Key Findings
 
-- Infrastructure access strongly reduces food insecurity  
-- Water and sanitation are major structural drivers  
-- Import dependency increases vulnerability  
-- Forecasting enables proactive policy planning  
+    - Infrastructure access strongly reduces food insecurity  
+    - Water and sanitation significantly influence outcomes  
+    - Import dependency increases vulnerability  
+    - Some ASEAN countries show steady improvement  
 
-### Policy Recommendations
+    ## Policy Implications
 
-- Invest in irrigation and water systems  
-- Strengthen local agricultural production  
-- Reduce food import exposure  
-- Monitor price volatility
-""")
+    - Invest in irrigation systems  
+    - Strengthen domestic food production  
+    - Reduce import dependency risks  
+    - Monitor food price volatility  
+    """)
