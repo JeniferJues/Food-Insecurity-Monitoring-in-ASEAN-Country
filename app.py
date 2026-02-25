@@ -46,7 +46,7 @@ TABLEAU_PATHS = {
 # ---------------------------------------------------
 # FUNCTION TO EMBED TABLEAU (STREAMLIT SAFE)
 # ---------------------------------------------------
-def embed_tableau(path, height=800):
+def embed_tableau(path, height=700):
     html_code = f"""
     <script type='module' src='https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js'></script>
     <tableau-viz
@@ -171,6 +171,20 @@ elif page == "Driver Analysis":
 
         st.success(f"Predicted Food Insecurity Rate: {prediction[0]:.2f}")
 
+        st.markdown("""
+        ### 🔍 Prediction Model Overview
+
+        The prediction model was developed using **Random Forest Regressor** after evaluating multiple machine learning algorithms during model development.
+        - Achieved the highest cross-validation performance.
+        - Delivered a strong average CV score of **0.95**.
+            
+        ### 🧠 Feature Selection
+
+        The input variables used in this prediction tool were selected through a feature selection process to ensure:
+        - Reduced multicollinearity
+        - Improved model generalization
+        - Higher predictive accuracy
+
 # ===================================================
 # PAGE 3 — FORECASTING
 # ===================================================
@@ -202,6 +216,18 @@ elif page == "Forecasting":
 
     except:
         st.warning("Forecast model not available for this country.")
+        st.markdown("""
+### 📈 Forecasting Model Overview
+
+The forecasting model was developed using **Facebook Prophet**, a time series forecasting model designed for business and policy applications.
+Prophet was selected because it:
+
+- Performs well with yearly time-series data.
+- Handles trend changes and structural shifts effectively.
+- Automatically models seasonality and trend components.
+
+""")
+
 
 # ===================================================
 # PAGE 4 — INSIGHTS
@@ -213,7 +239,6 @@ elif page == "Insights":
     embed_tableau(TABLEAU_PATHS["Insights"])
 
     st.divider()
-
     st.markdown("""
 ### Key Findings
 
