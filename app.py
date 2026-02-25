@@ -11,13 +11,6 @@ st.set_page_config(
     page_title="ASEAN Food Security Monitoring",
     layout="wide"
 )
-
-st.components.v1.html("""
-<script>
-window.scrollTo({top: 0, behavior: 'smooth'});
-</script>
-""", height=0, width=0)
-
 # =====================================================
 # LOAD DATA
 # =====================================================
@@ -82,6 +75,12 @@ page = st.sidebar.radio(
      "Insights"]
 )
 
+st.components.v1.html("""
+<script>
+window.scrollTo({top: 0, behavior: 'smooth'});
+</script>
+""", height=0, width=0)
+
 # =====================================================
 # PAGE 1 — OVERVIEW
 # =====================================================
@@ -121,7 +120,6 @@ if page == "Overview Dashboard":
     st.subheader("Interactive Tableau Dashboard")
     embed_tableau(TABLEAU_PATHS["Overview Dashboard"])
 
-
 # =====================================================
 # PAGE 2 — DRIVER ANALYSIS
 # =====================================================
@@ -129,9 +127,6 @@ elif page == "Driver Analysis":
 
     st.header("Driver Analysis")
 
-    # -----------------------------
-    # DESCRIPTION (ALWAYS FIRST)
-    # -----------------------------
     st.markdown("""
     ## 🔍 Prediction Model Overview
 
@@ -158,7 +153,6 @@ elif page == "Driver Analysis":
 
     # Feature Importance
     st.subheader("Feature Importance")
-
     try:
         fi = pd.read_csv("dataset/feature_importance.csv")
         fig = px.bar(fi, x="Importance", y="Feature", orientation="h")
@@ -170,7 +164,6 @@ elif page == "Driver Analysis":
 
     # Prediction Tool
     st.subheader("Food Insecurity Prediction Tool")
-
     col1, col2 = st.columns(2)
 
     with col1:
@@ -213,7 +206,6 @@ elif page == "Driver Analysis":
     st.subheader("Interactive Driver Dashboard")
     embed_tableau(TABLEAU_PATHS["Driver Analysis"])
 
-
 # =====================================================
 # PAGE 3 — FORECASTING
 # =====================================================
@@ -221,9 +213,6 @@ elif page == "Forecasting":
 
     st.header("Forecasting")
 
-    # -----------------------------
-    # DESCRIPTION FIRST
-    # -----------------------------
     st.markdown("""
     ## 📈 Forecasting Model Overview
 
@@ -277,7 +266,6 @@ elif page == "Forecasting":
     # Tableau
     st.subheader("Interactive Forecast Dashboard")
     embed_tableau(TABLEAU_PATHS["Forecasting"])
-
 
 # =====================================================
 # PAGE 4 — INSIGHTS
