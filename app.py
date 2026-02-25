@@ -184,6 +184,7 @@ elif page == "Driver Analysis":
         - Reduced multicollinearity
         - Improved model generalization
         - Higher predictive accuracy
+""")
 
 # ===================================================
 # PAGE 3 — FORECASTING
