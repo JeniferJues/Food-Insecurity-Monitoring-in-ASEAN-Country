@@ -286,7 +286,7 @@ if nav == "Home":
 # =================================================
 elif nav == "Dashboard":
 
-    set_background("https://i.pinimg.com/1200x/78/1d/4c/781d4c6becbd05f20e26057f6cbaf9bc.jpg")
+    set_background("https://64.media.tumblr.com/7e5be0b460f1404bfbf24807efa95f04/5bdfeadfc689526d-6d/s400x600/a87a377cee60d959ae9560c588ec691a2da470db.gif")
 
     st.title("Food Security Dashboard")
     embed_tableau(TABLEAU_PATHS["Overview"])
@@ -305,10 +305,22 @@ elif nav == "ML Prediction":
     with col1:
         
         st.subheader("ℹ️ Prediction Model Info")
-        st.dataframe(prediction_metrics)
+
+        style_df = prediction_metrics.style.set_table_styles(
+        [
+            {'selector': 'th',
+             'props': [('background-color', '#111827'),
+                       ('color', 'white')]},
+
+            {'selector': 'td',
+             'props': [('background-color', '#1f2937'),
+                       ('color', 'white')]}
+        ])
+
+        st.dataframe(style_df)
 
         st.image(
-            "https://i.pinimg.com/originals/bb/88/64/bb88641bbc1dc8e9583ee7029c546eff.gif",
+            "https://i.pinimg.com/originals/54/87/7b/54877bdc42b36295f73f554ff1461b1c.gif",
             width=500
         )
 
@@ -356,7 +368,7 @@ elif nav == "ML Prediction":
 # =================================================
 elif nav == "ML Forecasting":
 
-    set_background("https://i.pinimg.com/originals/7d/f1/43/7df143904208d2295c8428caaf86cb3c.gif")
+    set_background("https://64.media.tumblr.com/7e5be0b460f1404bfbf24807efa95f04/5bdfeadfc689526d-6d/s400x600/a87a377cee60d959ae9560c588ec691a2da470db.gif")
 
     st.title("Food Insecurity Forecast")
 
@@ -365,10 +377,21 @@ elif nav == "ML Forecasting":
     with col1:
         
         st.subheader("ℹ️ Forecasting Model Info")
-        st.dataframe(forecast_metrics)
 
+        styled_df = forecast_metrics.style.set_table_styles(
+        [
+            {'selector': 'th',
+             'props': [('background-color', '#111827'),
+                       ('color', 'white')]},
+
+            {'selector': 'td',
+             'props': [('background-color', '#1f2937'),
+                       ('color', 'white')]}
+        ])
+
+        st.dataframe(styled_df)
         st.image(
-            "https://i.pinimg.com/originals/bb/88/64/bb88641bbc1dc8e9583ee7029c546eff.gif",
+            "https://i.pinimg.com/originals/7c/6e/ea/7c6eeaeb617ad2c17d567c7ff9621e17.gif",
             width=500
         )
 
@@ -451,10 +474,13 @@ elif nav == "ML Forecasting":
 # =================================================
 elif nav == "Methodology":
 
-    set_background("https://i.pinimg.com/1200x/78/1d/4c/781d4c6becbd05f20e26057f6cbaf9bc.jpg")
+    set_background("https://i.pinimg.com/736x/83/94/88/839488e9fa9a3a7b5008ff12b35ad261.jpg")
 
     st.title("Project Methodology")
-    st.image("assets/methodology.png", width=800)
+    col1, col2, col3 = st.columns([1,2,1])
+
+    with col2:
+        st.image("assets/methodology.png", width=800)
 
 # -------------------------------------------------
 # FOOTER
