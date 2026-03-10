@@ -296,7 +296,7 @@ elif nav == "Dashboard":
 # =================================================
 elif nav == "ML Prediction":
 
-    set_background("https://i.pinimg.com/originals/7d/f1/43/7df143904208d2295c8428caaf86cb3c.gif")
+    set_background(""https://64.media.tumblr.com/7e5be0b460f1404bfbf24807efa95f04/5bdfeadfc689526d-6d/s400x600/a87a377cee60d959ae9560c588ec691a2da470db.gif")
 
     st.title("Food Insecurity Prediction")
 
@@ -306,19 +306,21 @@ elif nav == "ML Prediction":
         
         st.subheader("ℹ️ Prediction Model Info")
 
-        style_df = prediction_metrics.style.set_table_styles(
+        df_metrics = pd.DataFrame(
+            list(prediction_metrics.items()),
+            columns=["Metric", "Value"]
+        )
+
+        style_df = df_metrics.style.format({"Value": "{:.3f}"}).set_table_styles(
         [
             {'selector': 'th',
-             'props': [('background-color', '#111827'),
-                       ('color', 'white')]},
+             'props': [('background-color', '#111827'), ('color', 'white')]},
 
             {'selector': 'td',
-             'props': [('background-color', '#1f2937'),
-                       ('color', 'white')]}
+             'props': [('background-color', '#1f2937'), ('color', 'white')]}
         ])
 
         st.dataframe(style_df)
-
         st.image(
             "https://i.pinimg.com/originals/54/87/7b/54877bdc42b36295f73f554ff1461b1c.gif",
             width=500
@@ -378,15 +380,18 @@ elif nav == "ML Forecasting":
         
         st.subheader("ℹ️ Forecasting Model Info")
 
-        styled_df = forecast_metrics.style.set_table_styles(
+        df_metrics = pd.DataFrame(
+            list(forecast_metrics.items()),
+            columns=["Metric", "Value"]
+        )
+
+        styled_df = df_metrics.style.format({"Value": "{:.3f}"}).set_table_styles(
         [
             {'selector': 'th',
-             'props': [('background-color', '#111827'),
-                       ('color', 'white')]},
+             'props': [('background-color', '#111827'), ('color', 'white')]},
 
             {'selector': 'td',
-             'props': [('background-color', '#1f2937'),
-                       ('color', 'white')]}
+             'props': [('background-color', '#1f2937'), ('color', 'white')]}
         ])
 
         st.dataframe(styled_df)
@@ -480,7 +485,7 @@ elif nav == "Methodology":
     col1, col2, col3 = st.columns([1,2,1])
 
     with col2:
-        st.image("assets/methodology.png", width=800)
+        st.image("assets/methodology.png", width=1200)
 
 # -------------------------------------------------
 # FOOTER
