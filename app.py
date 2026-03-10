@@ -187,12 +187,7 @@ elif nav == "ML Prediction":
     col1,col2 = st.columns(2)
 
     with col1:
-        styled_predict = prediction_metrics.style.set_properties(**{
-        'background-color': '#262730',  # Dark grey background
-        'color': 'white',               # White text
-        'border-color': 'white'         # Optional: visible borders
-        })
-
+        
         st.subheader("ℹ️ Prediction Model Info")
         st.dataframe(styled_predict)
 
@@ -252,10 +247,7 @@ elif nav == "ML Forecasting":
     col1,col2 = st.columns(2)
 
     with col1:
-        styled_forecast = forecast_metrics.style.set_properties(**{'background-color': '#262730',
-        'color': 'white','border-color': 'white'         # Optional: visible borders
-        })
-
+        
         st.subheader("ℹ️ Forecasting Model Info")
         st.dataframe(styled_forecast)
 
