@@ -306,21 +306,12 @@ elif nav == "ML Prediction":
         
         st.subheader("ℹ️ Prediction Model Info")
 
-        df_metrics = pd.DataFrame(
-            list(prediction_metrics.items()),
-            columns=["Metric", "Value"]
+        st.dataframe(
+            forecast_metrics.style
+            .background_gradient(cmap="Blues")
+            .set_properties(**{'color': 'black'})
         )
-
-        style_df = df_metrics.style.set_table_styles(
-        [
-            {'selector': 'th',
-             'props': [('background-color', '#111827'), ('color', 'black')]},
-
-            {'selector': 'td',
-             'props': [('background-color', '#1f2937'), ('color', 'black')]}
-        ])
-
-        st.dataframe(style_df)
+        
         st.image(
             "https://i.pinimg.com/originals/54/87/7b/54877bdc42b36295f73f554ff1461b1c.gif",
             width=500
