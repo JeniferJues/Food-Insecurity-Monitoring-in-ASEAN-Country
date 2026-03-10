@@ -180,7 +180,7 @@ if nav == "Home":
         width:100vw;
         margin-left:calc(-50vw + 50%);
         background-image:
-        linear-gradient(rgba(0,0,0,1), rgba(0,0,0,1)),
+        linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
         url('https://static.vecteezy.com/system/resources/thumbnails/013/079/266/small_2x/circle-dot-south-east-asia-map-free-png.png');
         background-size:cover;
         background-position:center;
