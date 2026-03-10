@@ -189,7 +189,7 @@ elif nav == "ML Prediction":
     with col1:
         
         st.subheader("ℹ️ Prediction Model Info")
-        st.dataframe(styled_predict)
+        st.dataframe(prediction_metrics)
 
         st.image(
             "https://i.pinimg.com/originals/bb/88/64/bb88641bbc1dc8e9583ee7029c546eff.gif",
@@ -249,7 +249,7 @@ elif nav == "ML Forecasting":
     with col1:
         
         st.subheader("ℹ️ Forecasting Model Info")
-        st.dataframe(styled_forecast)
+        st.dataframe(forecast_metrics)
 
         st.image(
             "https://i.pinimg.com/originals/bb/88/64/bb88641bbc1dc8e9583ee7029c546eff.gif",
