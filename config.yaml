@@ -1,0 +1,4 @@
+model:
+  algorithm_predict: Random Forest Regresssor
+  algorithm_forecast: Random Forest Regresssor
+  
