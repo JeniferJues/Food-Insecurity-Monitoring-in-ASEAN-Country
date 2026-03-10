@@ -146,24 +146,109 @@ nav = st.radio(
 # =================================================
 if nav == "Home":
 
-    set_background("https://i.pinimg.com/736x/cb/38/21/cb3821211ff00fb8456a24467e709004.jpg")
-
-    col1,col2 = st.columns([1,2])
-
-    with col1:
-        st.image(
-            "https://simplyadtype.wordpress.com/wp-content/uploads/2020/09/gif-1.gif",
-            use_container_width=True
-        )
-
-    with col2:
-        st.markdown(
+    # SECTION 1 -------------------------------------------------
+    st.markdown(
         """
-        <h1 style='font-size:60px;color:white'>ASEAN Food Security Monitoring</h1>
-        <h3 style='color:white'>Machine Learning Forecast & Prediction</h3>
+        <style>
+        .section1{
+            background-image: url("https://i.pinimg.com/1200x/a3/3c/96/a33c968a4561111e2b4ce37a8d7d3617.jpg");
+            background-size: cover;
+            padding:60px;
+            border-radius:10px;
+        }
+
+        .section2{
+            background-image:
+            linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+            url("https://static.vecteezy.com/system/resources/thumbnails/013/079/266/small_2x/circle-dot-south-east-asia-map-free-png.png");
+
+            background-size: cover;
+            background-position: center;
+            padding: 60px;
+            border-radius:10px;
+            color:white;
+        }
+
+        .section3{
+            background-color:#a6742e;
+            padding:60px;
+            border-radius:10px;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown('<div class="section1">', unsafe_allow_html=True)
+
+    st.markdown(
+        """
+        <h1 style='text-align:center','font-size:80px;color:white'>
+        ASEAN Food Security Monitoring
+        </h1>
+
+        <h3 style='text-align:center', 'color:white'>
+        Machine Learning Forecast & Prediction
+        </h3>
         """,
         unsafe_allow_html=True
         )
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+
+
+    # SECTION 2 -------------------------------------------------
+    st.markdown('<div class="section2">', unsafe_allow_html=True)
+
+    st.markdown(
+        """
+        <h2 style='text-align:center'>About This Project</h2>
+
+        This project is an independent extension of my university group coursework 
+        on predicting food insecurity in ASEAN countries using machine learning.
+
+        The original coursework focused on developing regression models using 
+        FAO and World Bank indicators to predict the prevalence of severe food 
+        insecurity.
+
+        For my portfolio, I expanded the project into an interactive **Food Security 
+        Monitoring Dashboard** by adding geographic visualization, time-series 
+        forecasting, and feature importance analysis to support policy-oriented insights.
+
+        **Data Sources:**  
+        - <a href="https://data.worldbank.org" target="_blank">World Bank</a>  
+        - <a href="https://www.fao.org/faostat/en/" target="_blank">FAO</a>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+
+
+    # SECTION 3 -------------------------------------------------
+    st.markdown('<div class="section3">', unsafe_allow_html=True)
+
+    st.markdown(
+        """
+        <h2>Problem Statement</h2>
+
+        Food insecurity remains a critical socioeconomic challenge across 
+        ASEAN countries, affecting population health, economic stability, 
+        and policy planning.
+
+        Governments require **data-driven tools** to monitor trends, identify 
+        key drivers, and anticipate future risk levels. However, existing 
+        analyses are often static and lack predictive capabilities.
+
+        This project develops a **machine learning–based monitoring and 
+        forecasting system** to support early detection and policy intervention.
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown("</div>", unsafe_allow_html=True)
 
 # =================================================
 # DASHBOARD
