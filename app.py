@@ -329,7 +329,7 @@ elif nav == "Methodology":
     set_background("https://i.pinimg.com/1200x/78/1d/4c/781d4c6becbd05f20e26057f6cbaf9bc.jpg")
 
     st.title("Project Methodology")
-    st.image("assets/flowchart.png", width=800)
+    st.image("assets/methodology.png", width=800)
 
 # -------------------------------------------------
 # FOOTER
