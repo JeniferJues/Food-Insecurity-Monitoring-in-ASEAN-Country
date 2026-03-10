@@ -111,13 +111,13 @@ forecast_features = load_forecast_features()
 prediction_metrics = load_prediction_metrics()
 forecast_metrics = load_forecast_metrics()
 
-# =====================================================
+# -------------------------------------------------
+# TABLEAU
+# -------------------------------------------------
 TABLEAU_PATHS = {
     "Overview": "views/FoodInsecurityRateDashboard/Overview"
 }
-# =====================================================
-# SAFE TABLEAU EMBED FUNCTION
-# =====================================================
+
 def embed_tableau(path, height=650):
     html_code = f"""
     <script type='module' src='https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js'></script>
@@ -151,13 +151,19 @@ if nav == "Home":
     col1,col2 = st.columns([1,2])
 
     with col1:
-        st.image("https://simplyadtype.wordpress.com/wp-content/uploads/2020/09/gif-1.gif",use_container_width=True)
+        st.image(
+            "https://simplyadtype.wordpress.com/wp-content/uploads/2020/09/gif-1.gif",
+            use_container_width=True
+        )
 
     with col2:
-        st.markdown("""
+        st.markdown(
+        """
         <h1 style='font-size:60px;color:white'>ASEAN Food Security Monitoring</h1>
         <h3 style='color:white'>Machine Learning Forecast & Prediction</h3>
-        """,unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True
+        )
 
 # =================================================
 # DASHBOARD
@@ -182,50 +188,52 @@ elif nav == "ML Prediction":
 
     with col1:
 
-        st.subheader("ℹ️Prediction Model Info")
-	st.write("Algorithm:",config["model"]["algorithm_predict"])
+        st.subheader("ℹ️ Prediction Model Info")
         st.dataframe(prediction_metrics)
 
-	url = "https://i.pinimg.com/originals/bb/88/64/bb88641bbc1dc8e9583ee7029c546eff.gif"
-        st.image(url, width=500)
+        st.image(
+            "https://i.pinimg.com/originals/bb/88/64/bb88641bbc1dc8e9583ee7029c546eff.gif",
+            width=500
+        )
 
     with col2:
 
-        st.subheader("✨Prediction Tool ")
+        st.subheader("✨ Prediction Tool")
 
         user_inputs = {}
-   	errors = False
+        errors = False
 
-   	for feature in feature_columns:
-    
-    		value = st.text_input(feature)
+        for feature in feature_columns:
 
-    		if value != "":
-        		try:
-            		  	user_inputs[feature] = float(value)
-        		except ValueError:
-            			st.error(f"⚠️ '{feature}' must be a numeric value.")
-            			errors = True
-    		else:
-       			 user_inputs[feature] = None
+            value = st.text_input(feature)
+
+            if value != "":
+                try:
+                    user_inputs[feature] = float(value)
+                except ValueError:
+                    st.error(f"⚠️ '{feature}' must be numeric.")
+                    errors = True
+            else:
+                user_inputs[feature] = None
 
         if st.button("Predict"):
-		
-	    if errors:
-        	    st.warning("Please correct the invalid inputs before prediction.")
 
-                     elif None in user_inputs.values():
-        	    st.warning("Please fill in all input fields.")
+            if errors:
+                st.warning("Please correct invalid inputs.")
 
-                      else:
-        
+            elif None in user_inputs.values():
+                st.warning("Please fill all fields.")
 
-            input_df = pd.DataFrame([user_inputs])
-            input_df = input_df[feature_columns]
+            else:
 
-            prediction = prediction_model.predict(input_df)[0]
+                input_df = pd.DataFrame([user_inputs])
+                input_df = input_df[feature_columns]
 
-            st.success(f"Predicted Food Insecurity Rate: {prediction:.2f}")
+                prediction = prediction_model.predict(input_df)[0]
+
+                st.success(
+                    f"Predicted Food Insecurity Rate: {prediction:.2f}"
+                )
 
 # =================================================
 # ML FORECASTING
@@ -240,21 +248,22 @@ elif nav == "ML Forecasting":
 
     with col1:
 
-        st.subheader("("ℹ️Forecasting  Model Info"")
-	st.write("Algorithm:",config["model"]["algorithm_forecast"])
+        st.subheader("ℹ️ Forecasting Model Info")
         st.dataframe(forecast_metrics)
 
-	url =  "https://i.pinimg.com/originals/bb/88/64/bb88641bbc1dc8e9583ee7029c546eff.gif"
-        st.image(url, width=500)
+        st.image(
+            "https://i.pinimg.com/originals/bb/88/64/bb88641bbc1dc8e9583ee7029c546eff.gif",
+            width=500
+        )
 
     with col2:
 
-        st.subheader("✨Forecast Tool")
+        st.subheader("✨ Forecast Tool")
 
         countries = forecast_df["Country_orig"].unique()
 
         country = st.selectbox("Select Country", countries)
-        future_year = st.slider("Forecast Year",2024,2035)
+        future_year = st.slider("Forecast Year", 2024, 2035)
 
         country_data = forecast_df[forecast_df["Country_orig"] == country]
 
@@ -271,7 +280,7 @@ elif nav == "ML Forecasting":
 
         time_index = future_year - forecast_df["Year"].min()
 
-        input_data = pd.DataFrame(0,index=[0],columns=forecast_features)
+        input_data = pd.DataFrame(0, index=[0], columns=forecast_features)
 
         input_data["Food Insecurity Rate_lag1"] = lag1
         input_data["Food Insecurity Rate_lag2"] = lag2
@@ -290,7 +299,9 @@ elif nav == "ML Forecasting":
 
             prediction = forecast_model.predict(input_data)[0]
 
-            st.success(f"Forecast Food Insecurity Rate: {prediction:.2f}")
+            st.success(
+                f"Forecast Food Insecurity Rate: {prediction:.2f}"
+            )
 
             chart_df = country_data[["Year","Food Insecurity Rate"]].copy()
 
@@ -318,8 +329,7 @@ elif nav == "Methodology":
     set_background("https://i.pinimg.com/1200x/78/1d/4c/781d4c6becbd05f20e26057f6cbaf9bc.jpg")
 
     st.title("Project Methodology")
-
-    st.image("assets/flowchart.png",width=800)
+    st.image("assets/flowchart.png", width=800)
 
 # -------------------------------------------------
 # FOOTER
