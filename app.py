@@ -306,11 +306,10 @@ elif nav == "ML Prediction":
         
         st.subheader("ℹ️ Prediction Model Info")
 
-        st.dataframe(
-            forecast_metrics.style
-            .background_gradient(cmap="Blues")
-            .set_properties(**{'color': 'black'})
-        )
+        st.write("Algorithm:",config["model"]["algorithm_pred"])
+        st.metric("R square score:",config["model"]["r_square_score"])
+        st.metric("RMSE:",config["model"]["rmse"])
+        st.metric("Average CV Score:",config["model"]["avg_CV_score"])
         
         st.image(
             "https://i.pinimg.com/originals/54/87/7b/54877bdc42b36295f73f554ff1461b1c.gif",
@@ -370,22 +369,11 @@ elif nav == "ML Forecasting":
     with col1:
         
         st.subheader("ℹ️ Forecasting Model Info")
-
-        df_metrics = pd.DataFrame(
-            list(forecast_metrics.items()),
-            columns=["Metric", "Value"]
-        )
-
-        styled_df = df_metrics.style.format({"Value": "{:.3f}"}).set_table_styles(
-        [
-            {'selector': 'th',
-             'props': [('background-color', '#111827'), ('color', 'white')]},
-
-            {'selector': 'td',
-             'props': [('background-color', '#1f2937'), ('color', 'white')]}
-        ])
-
-        st.dataframe(styled_df)
+        st.write("Algorithm:",config["model"]["algorithm_forecast"])
+        st.metric("MAE:",config["model"]["MAE"])
+        st.metric("RMSE:",config["model"]["rmse_forecast"])
+        st.metric("MAPE:",config["model"]["MAPE"])
+        
         st.image(
             "https://i.pinimg.com/originals/7c/6e/ea/7c6eeaeb617ad2c17d567c7ff9621e17.gif",
             width=500
@@ -473,10 +461,9 @@ elif nav == "Methodology":
     set_background("https://i.pinimg.com/736x/83/94/88/839488e9fa9a3a7b5008ff12b35ad261.jpg")
 
     st.title("Project Methodology")
-    col1, col2, col3 = st.columns([1,2,1])
 
-    with col2:
-        st.image("assets/methodology.png", width=1200)
+     with st.container(horizontal_alignment="center"):
+        st.image("assests/methodology.png", width=800)
 
 # -------------------------------------------------
 # FOOTER
