@@ -310,9 +310,9 @@ elif nav == "ML Prediction":
         st.subheader("ℹ️ Prediction Model Info")
 
         st.write("Algorithm:",config["model"]["algorithm_pred"])
-        st.metric("R square score:",config["model"]["r_square_score"])
-        st.metric("RMSE:",config["model"]["rmse"])
-        st.metric("Average CV Score:",config["model"]["avg_CV_score"])
+        st.write("R square score:",config["model"]["r_square_score"])
+        st.write("RMSE:",config["model"]["rmse"])
+        st.write("Average CV Score:",config["model"]["avg_CV_score"])
         
         st.image(
             "https://i.pinimg.com/originals/54/87/7b/54877bdc42b36295f73f554ff1461b1c.gif",
@@ -373,9 +373,9 @@ elif nav == "ML Forecasting":
         
         st.subheader("ℹ️ Forecasting Model Info")
         st.write("Algorithm:",config["model"]["algorithm_forecast"])
-        st.metric("MAE:",config["model"]["MAE"])
-        st.metric("RMSE:",config["model"]["rmse_forecast"])
-        st.metric("MAPE:",config["model"]["MAPE"])
+        st.write("MAE:",config["model"]["MAE"])
+        st.write("RMSE:",config["model"]["rmse_forecast"])
+        st.write("MAPE:",config["model"]["MAPE"])
         
         st.image(
             "https://i.pinimg.com/originals/7c/6e/ea/7c6eeaeb617ad2c17d567c7ff9621e17.gif",
