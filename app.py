@@ -112,6 +112,8 @@ forecast_features = load_forecast_features()
 prediction_metrics = load_prediction_metrics()
 forecast_metrics = load_forecast_metrics()
 
+with open("config.yaml") as f:
+    config = yaml.safe_load(f)
 # -------------------------------------------------
 # TABLEAU
 # -------------------------------------------------
@@ -464,7 +466,7 @@ elif nav == "Methodology":
     st.title("Project Methodology")
 
     with st.container(horizontal_alignment="center"):
-        st.image("assests/methodology.png", width=800)
+        st.image("assets/methodology.png", width=800)
 
 # -------------------------------------------------
 # FOOTER
