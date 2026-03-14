@@ -372,7 +372,7 @@ elif nav == "ML Prediction":
                     else:
                         user_inputs[feature] = None
                         
-                  predict_button = st.button("Predict Production")
+                predict_button = st.button("Predict Production")
         # =========================
         # MAIN PAGE
         # =========================
