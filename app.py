@@ -412,7 +412,7 @@ elif nav == "ML Prediction":
                                  """,
                                 unsafe_allow_html=True
                             )
-                        except ValueError:
+                    except ValueError:
                         result_placeholder.error("Invalid numeric input.")
 
 # =================================================
