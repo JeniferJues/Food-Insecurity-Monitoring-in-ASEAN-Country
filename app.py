@@ -238,7 +238,7 @@ if nav == "Home":
     <p>
     Data source:
     <a href="https://data.worldbank.org/" target="_blank" style="color:#FFD700;">World Bank</a>
-    
+    <br>
     <a href="https://www.fao.org/faostat/en/#data" target="_blank" style="color:#FFD700;">FAO</a>
     </p>
 
@@ -287,23 +287,23 @@ if nav == "Home":
 
     <br>
 
-    <p style="color:white;font-size:18px;text-align:center;max-width:900px;margin:auto;">
-    Food insecurity remains a critical socioeconomic challenge across ASEAN countries,
+    <p style="color:white;font-size:18px;text-align:left;max-width:900px;margin:auto;">
+        Food insecurity remains a critical socioeconomic challenge across ASEAN countries,
     affecting population health, economic stability, and policy planning.
     </p>
 
     <br>
 
-    <p style="color:white;font-size:18px;text-align:center;max-width:900px;margin:auto;">
-    Governments require data-driven tools to monitor trends, identify key drivers,
+    <p style="color:white;font-size:18px;text-align:left;max-width:900px;margin:auto;">
+        Governments require data-driven tools to monitor trends, identify key drivers,
     and anticipate future risk levels. However, existing analyses are often static
     and lack predictive capabilities.
     </p>
 
     <br>
 
-    <p style="color:white;font-size:18px;text-align:center;max-width:900px;margin:auto;">
-    This project develops a machine learning–based monitoring and forecasting system
+    <p style="color:white;font-size:18px;text-align:left;max-width:900px;margin:auto;">
+        This project develops a machine learning–based monitoring and forecasting system
     to support early detection and policy intervention.
     </p>
 
@@ -315,7 +315,7 @@ if nav == "Home":
 # =================================================
 elif nav == "Dashboard":
 
-    set_background("https://i.pinimg.com/736x/7f/3c/0f/7f3c0fbd2756a4071aa3261ad27118e8.jpg")
+    set_background("https://i.pinimg.com/1200x/d3/d9/ef/d3d9efe6cad4c42f9538ec5ed8517946.jpg")
 
     st.title("Food Security Dashboard")
     embed_tableau(TABLEAU_PATHS["Overview"])
