@@ -169,16 +169,59 @@ if nav == "Home":
     Machine Learning Forecast & Prediction
     </h3>
 
+    <!-- CENTER BUTTONS -->
+    <div style="
+        margin-top:20px;
+        text-align:center;
+    ">
+
+    <a href="#about_project">
+        <button style="
+            background-color:none;
+            color:white;
+            padding:15px 30px;
+            border:none;
+            border-radius:8px;
+            font-size:16px;
+            margin-right:20px;
+            cursor:pointer;
+        ">
+        About Project
+        </button>
+    </a>
+
+    <a href="#problem_statement">
+        <button style="
+            background-color:none;
+            color:white;
+            padding:15px 30px;
+            border:none;
+            border-radius:8px;
+            font-size:16px;
+            cursor:pointer;
+        ">
+        Problem Statement
+        </button>
+    </a>
+
+    </div>
+
     </div>
     """, unsafe_allow_html=True)
 
-
-
+    st.markdown("""
+    <style>
+    html {
+        scroll-behavior: smooth;
+    }
+    </style>
+    """, unsafe_allow_html=True)
     # =====================================
     # SECTION 2 : ABOUT PROJECT
     # IMAGE + 40% DARK OVERLAY
     # =====================================
     st.markdown("""
+    <div id="about_project"></div>
     <div style="
         width:100vw;
         margin-left:calc(-50vw + 50%);
@@ -268,6 +311,7 @@ if nav == "Home":
     # DARK BACKGROUND
     # =====================================
     st.markdown("""
+    <div id="problem_statement"></div>
     <div style="
         width:100vw;
         margin-left:calc(-50vw + 50%);
