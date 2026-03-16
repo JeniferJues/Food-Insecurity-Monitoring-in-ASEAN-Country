@@ -177,8 +177,8 @@ if nav == "Home":
 
     <a href="#about_project">
         <button style="
-            background-color:none;
-            color:white;
+            background-color:transparent;
+            color:black;
             padding:15px 30px;
             border:none;
             border-radius:8px;
@@ -192,8 +192,8 @@ if nav == "Home":
 
     <a href="#problem_statement">
         <button style="
-            background-color:none;
-            color:white;
+            background-color:transparent;
+            color:black;
             padding:15px 30px;
             border:none;
             border-radius:8px;
